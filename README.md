@@ -8,6 +8,7 @@ Logging Camp is a simple and customizable logging library written in Swift, desi
 - Customizable logging levels
 - Customizable log format
 - Support for logging to console and file
+- Support for custom log handlers
 - Open source and free to use
 
 ## Requirements
