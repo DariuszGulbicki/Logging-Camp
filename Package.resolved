@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Colorizer",
+        "repositoryURL": "https://github.com/DariuszGulbicki/Colorizer",
+        "state": {
+          "branch": null,
+          "revision": "8e9747fc55861a2969c721967f4a84b95ae5f716",
+          "version": "1.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
