@@ -197,7 +197,7 @@ public prefix func <<(rhs: Any) {
     print(rhs)
 }
 
-public postfix func >>(lhs: Any) -> String? {
+public postfix func >>(lhs: Any) -> String {
     print(lhs, terminator: ": ")
-    return readLine()
+    return readLine() ?? ""
 }
