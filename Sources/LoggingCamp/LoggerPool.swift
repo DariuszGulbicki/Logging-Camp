@@ -28,7 +28,7 @@ public class LoggerPool {
 
     private var loggers: [Logger] = []
 
-    private var _loggingLevel: LogLevel = .INFO
+    private var _loggingLevel: LogLevel = LoggingCamp.getGlobalLoggingLevel()
 
     public var loggingLevel: LogLevel {
         get {
