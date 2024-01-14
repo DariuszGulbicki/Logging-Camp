@@ -16,5 +16,8 @@ let package = Package(
         .target(
             name: "LoggingCamp",
             dependencies: [.product(name: "Colorizer", package: "colorizer")]),
+        .testTarget(
+            name: "LoggingCampTests",
+            dependencies: ["LoggingCamp"]),
     ]
 )

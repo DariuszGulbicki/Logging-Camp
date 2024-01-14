@@ -1,9 +1,29 @@
 public class LoggingCamp {
 
+    private static let defaultLoggerPool = LoggerPool();
+
+    private static var _defaultLoggerName: String = "Main";
+    public static var defaultLoggerName: String {
+        get {
+            return _defaultLoggerName;
+        }
+        set {
+            _defaultLoggerName = newValue;
+        }
+    }
+
     private static var handlers: [String:LogHandler] = ["default":ColoredPrintLogHandler()];
     private static var disabledHandlers: [String] = [];
 
     private static var loggingLevel: LogLevel = .INFO;
+
+    public static func getDefaulLoggerPool() -> LoggerPool {
+        return defaultLoggerPool;
+    }
+
+    public static func getDefaultLogger() -> Logger {
+        return defaultLoggerPool.getLogger(LoggingCamp.defaultLoggerName)
+    }
 
     public static func loadHandler(_ name: String, _ handler: LogHandler) {
         handlers[name] = handler;
@@ -37,6 +57,7 @@ public class LoggingCamp {
 
     public static func setGlobalLoggingLevel(_ level: LogLevel) {
         loggingLevel = level;
+        defaultLoggerPool.loggingLevel = level;
     }
 
     public static func getGlobalLoggingLevel() -> LogLevel {
