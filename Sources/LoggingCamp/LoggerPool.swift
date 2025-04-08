@@ -18,6 +18,7 @@ public class LoggerPool {
     }
 
     public static subscript(name: String) -> LoggerPool {
+        @discardableResult
         get {
             return getPool(name)
         }
@@ -57,6 +58,7 @@ public class LoggerPool {
     }
 
     public subscript(_ name: String) -> Logger {
+        @discardableResult
         get {
             return getLogger(name)
         }
@@ -81,6 +83,34 @@ public class LoggerPool {
 
     public func getLoggers() -> [Logger] {
         return loggers
+    }
+
+    public func addLogger(_ logger: Logger) {
+        loggers.append(logger)
+    }
+
+    public func addLoggers(_ loggers: [Logger]) {
+        for logger in loggers {
+            addLogger(logger)
+        }
+    }
+
+    public func addLoggers(_ loggers: Logger...) {
+        for logger in loggers {
+            addLogger(logger)
+        }
+    }
+
+    public func removeAll() {
+        loggers.removeAll()
+    }
+
+    public func remove(_ logger: Logger) {
+        loggers.removeAll(where: { $0.getName() == logger.getName() })
+    }
+
+    public func remove(_ name: String) {
+        loggers.removeAll(where: { $0.getName() == name })
     }
 
     public func forEach(_ action: (Logger) -> Void) {
