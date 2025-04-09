@@ -1,29 +1,37 @@
+import Foundation
+
 public class LoggerPool {
     
-    private static var _pools: [String:LoggerPool] = [:]
+    nonisolated(unsafe) private static var _pools: [String:LoggerPool] = [:]
+    private static let poolQueue = DispatchQueue(label: "pl.dariuszgulbicki.loggingcamp.poolqueue")
 
     public static var pools: [String:LoggerPool] {
         get {
-            return _pools
+            poolQueue.sync {
+                return _pools
+            }
         }
     }
 
     public static func getPool(_ name: String) -> LoggerPool {
-        if let pool = _pools[name] {
+        poolQueue.sync {
+            if let pool = _pools[name] {
+                return pool
+            }
+            let pool = LoggerPool()
+            _pools[name] = pool
             return pool
-        }
-        let pool = LoggerPool()
-        _pools[name] = pool
-        return pool
+            }
     }
 
-    public static subscript(name: String) -> LoggerPool {
-        @discardableResult
-        get {
-            return getPool(name)
-        }
-        set {
-            _pools[name] = newValue
+    public static subscript(poolName: String) -> LoggerPool {
+        poolQueue.sync {
+            if let pool = _pools[poolName] {
+                return pool
+            }
+            let newPool = LoggerPool()
+            _pools[poolName] = newPool
+            return newPool
         }
     }
 
