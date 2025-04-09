@@ -1,4 +1,4 @@
-public enum LogLevel: UInt8 {
+public enum LogLevel: UInt8, Sendable {
     case DEBUG = 0
     case INFO = 1
     case WARN = 2

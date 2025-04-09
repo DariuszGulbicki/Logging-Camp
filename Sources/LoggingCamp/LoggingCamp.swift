@@ -1,4 +1,4 @@
-public class LoggingCamp {
+public actor LoggingCamp {
 
     private static let defaultLoggerPool = LoggerPool();
 
