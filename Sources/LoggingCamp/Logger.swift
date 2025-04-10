@@ -1,47 +1,49 @@
 public class Logger {
 
-    public static subscript(_ name: String) -> Logger {
-        return LoggingCamp.getDefaulLoggerPool().getLogger(name);
+    public static subscript(_ id: String) -> Logger {
+        return LoggingCamp.getDefaultLoggerPool().getLogger(id);
     }
 
     public static var `default`: Logger {
         return LoggingCamp.getDefaultLogger();
     }
 
-    private var name: String
+    private var id: String
+    private var correspondingPool: String?
 
     private var enabledHandlers: [String]?
 
     private var loggingLevel: LogLevel = LoggingCamp.getGlobalLoggingLevel();
 
-    public init(_ lcls: String? = nil, _ enabledHandlers: [String]? = nil) {
-        self.name = lcls ?? "UNKNOWN";
+    public init(_ id: String? = nil, _ enabledHandlers: [String]? = nil, correspondingPool: String? = nil) {
+        self.id = id ?? "UNKNOWN";
         self.enabledHandlers = enabledHandlers;
+        self.correspondingPool = correspondingPool;
     }
 
-    public func getName() -> String {
-        return name;
+    public func getId() -> String {
+        return id;
     }
 
-    public func enableHandler(_ name: String) {
+    public func enableHandler(_ id: String) {
         if (enabledHandlers == nil) {
             enabledHandlers = [];
         }
-        enabledHandlers!.append(name);
+        enabledHandlers!.append(id);
     }
 
-    public func disableHandler(_ name: String) {
+    public func disableHandler(_ id: String) {
         if (enabledHandlers == nil) {
             enabledHandlers = [];
         }
-        enabledHandlers!.removeAll(where: { $0 == name });
+        enabledHandlers!.removeAll(where: { $0 == id });
     }
 
-    public func isHandlerEnabled(_ name: String) -> Bool {
+    public func isHandlerEnabled(_ id: String) -> Bool {
         if (enabledHandlers == nil) {
             return true;
         }
-        return enabledHandlers!.contains(name);
+        return enabledHandlers!.contains(id);
     }
 
     public func setEnabledHandlers(_ enabled: [String]?) {
@@ -54,7 +56,7 @@ public class Logger {
 
     public func log(_ level: LogLevel, _ message: String, _ cause: Error? = nil) {
         if (loggingLevel.rawValue <= level.rawValue) {
-            let entry = LogEntry(level, message, enabledHandlers, cause, "\(self.name)")
+            let entry = LogEntry(level, message, handlers: enabledHandlers, cause: cause, callerId: "\(self.id)", callerPool: correspondingPool)
             LogDispatcher.shared.dispatchLogEntry(entry)
         }
     }
@@ -64,25 +66,25 @@ public class Logger {
     }
 
     public func debug(_ message: Any, _ cause: Error? = nil) {
-        if (loggingLevel.rawValue <= LogLevel.DEBUG.rawValue) {
-            log(LogLevel.DEBUG, message, cause)
+        if (loggingLevel.rawValue <= LogLevel.debug.rawValue) {
+            log(LogLevel.debug, message, cause)
         }
     }
 
     public func info(_ message: Any, _ cause: Error? = nil) {
-        log(LogLevel.INFO, message, cause)
+        log(LogLevel.info, message, cause)
     }
 
     public func warn(_ message: Any, _ cause: Error? = nil) {
-        log(LogLevel.WARN, message, cause)
+        log(LogLevel.warn, message, cause)
     }
 
     public func error(_ message: Any, _ cause: Error? = nil) {
-        log(LogLevel.ERROR, message, cause)
+        log(LogLevel.error, message, cause)
     }
 
     public func fatal(_ message: Any, _ cause: Error? = nil) {
-        log(LogLevel.FATAL, message, cause)
+        log(LogLevel.fatal, message, cause)
     }
 
     public func setLoggingLevel(_ level: LogLevel) {

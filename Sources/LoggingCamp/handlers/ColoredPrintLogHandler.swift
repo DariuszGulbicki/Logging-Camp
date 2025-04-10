@@ -11,12 +11,12 @@ public final class ColoredPrintLogHandler: LogHandler {
         self.timeFormat = timeFormat
     }
 
-    public func log(_ level: LogLevel, _ message: String, _ caller: String, _ cause: Error?) {
+    public func log(_ entry: LogEntry) {
         let time = prepareTime(Date())
-        let level = prepareLevel(level)
-        let message = prepareMessage(message)
-        let cause = prepareCause(cause)
-        let caller = prepareCaller(caller)
+        let level = prepareLevel(entry.level)
+        let message = prepareMessage(entry.message)
+        let cause = prepareCause(entry.cause)
+        let caller = prepareCaller(entry.callerId, entry.callerPool)
         let output = template
             .replacing("@time", with: time)
             .replacing("@level", with: level)
@@ -28,15 +28,15 @@ public final class ColoredPrintLogHandler: LogHandler {
 
     private func prepareLevel(_ level: LogLevel) -> String {
         switch level {
-            case .DEBUG:
+            case .debug:
                 return "[DEBUG]".white().greenBackground()
-            case .INFO:
+            case .info:
                 return "[INFO]".white().blueBackground()
-            case .WARN:
+            case .warn:
                 return "[WARN]".white().yellowBackground()
-            case .ERROR:
+            case .error:
                 return "[ERROR]".bold().white().redBackground()
-            case .FATAL:
+            case .fatal:
                 return "!!! FATAL !!!".bold().underline().red().blackBackground()
         }
     }
@@ -58,8 +58,13 @@ public final class ColoredPrintLogHandler: LogHandler {
         return ""
     }
 
-    private func prepareCaller(_ caller: String) -> String {
-        return "\(caller):".magenta()
+    private func prepareCaller(_ caller: String, _ callerPool: String?) -> String {
+        var callerString = ""
+        if let callerPool = callerPool {
+            callerString += "(\(callerPool)) "
+        }
+        callerString += "\(caller):"
+        return callerString.magenta()
     }
 
 }

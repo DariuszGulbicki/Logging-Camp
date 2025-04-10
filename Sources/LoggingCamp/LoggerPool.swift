@@ -13,26 +13,32 @@ public class LoggerPool {
         }
     }
 
-    public static func getPool(_ name: String) -> LoggerPool {
+    public static func getPool(_ id: String) -> LoggerPool {
         poolQueue.sync {
-            if let pool = _pools[name] {
+            if let pool = _pools[id] {
                 return pool
             }
-            let pool = LoggerPool()
-            _pools[name] = pool
+            let pool = LoggerPool(id)
+            _pools[id] = pool
             return pool
             }
     }
 
-    public static subscript(poolName: String) -> LoggerPool {
+    public static subscript(poolId: String) -> LoggerPool {
         poolQueue.sync {
-            if let pool = _pools[poolName] {
+            if let pool = _pools[poolId] {
                 return pool
             }
-            let newPool = LoggerPool()
-            _pools[poolName] = newPool
+            let newPool = LoggerPool(poolId)
+            _pools[poolId] = newPool
             return newPool
         }
+    }
+
+    public let poolId: String
+
+    public init (_ poolId: String) {
+        self.poolId = poolId
     }
 
     private var loggers: [Logger] = []
@@ -71,7 +77,7 @@ public class LoggerPool {
             return getLogger(name)
         }
         set {
-            loggers.removeAll(where: { $0.getName() == name })
+            loggers.removeAll(where: { $0.getId() == name })
             loggers.append(newValue)
         }
     }
@@ -79,11 +85,11 @@ public class LoggerPool {
     @discardableResult
     public func getLogger(_ name: String) -> Logger {
         for logger in loggers {
-            if logger.getName() == name {
+            if logger.getId() == name {
                 return logger
             }
         }
-        let logger = Logger(name, _enabledHandlers)
+        let logger = Logger(name, _enabledHandlers, correspondingPool: self.poolId)
         logger.setLoggingLevel(loggingLevel)
         loggers.append(logger)
         return logger
@@ -114,11 +120,11 @@ public class LoggerPool {
     }
 
     public func remove(_ logger: Logger) {
-        loggers.removeAll(where: { $0.getName() == logger.getName() })
+        loggers.removeAll(where: { $0.getId() == logger.getId() })
     }
 
     public func remove(_ name: String) {
-        loggers.removeAll(where: { $0.getName() == name })
+        loggers.removeAll(where: { $0.getId() == name })
     }
 
     public func forEach(_ action: (Logger) -> Void) {
