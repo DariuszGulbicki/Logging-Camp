@@ -1,9 +1,9 @@
 import Foundation
 
-public class PrintLogHandler: LogHandler {
+public final class PrintLogHandler: LogHandler {
 
-    private var template: String
-    private var timeFormat: String
+    private let template: String
+    private let timeFormat: String
 
     public init(template: String = "[@time] (@caller) @level: @message @cause", timeFormat: String = "HH:mm:ss") {
         self.template = template;

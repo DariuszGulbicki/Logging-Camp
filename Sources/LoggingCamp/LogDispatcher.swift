@@ -1,9 +1,10 @@
 import Foundation
 import Colorizer
 
-public class LogDispatcher {
+public final class LogDispatcher: @unchecked Sendable {
 
     public static let shared = LogDispatcher()
+    public static let instanceQueue = DispatchQueue(label: "LoggingCamp.LogDispatcher")
     
     private init() {
         atexit {
@@ -13,6 +14,7 @@ public class LogDispatcher {
 
     private var handlerQueues: [String: DispatchQueue] = [:]
     private let dispatchGroup = DispatchGroup()
+    
 
     private func getQueueForHandler(_ handler: String) -> DispatchQueue {
         if let queue = handlerQueues[handler] {

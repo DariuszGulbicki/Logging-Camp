@@ -1,7 +1,7 @@
 import Foundation
 import Colorizer
 
-public class ColoredPrintLogHandler: LogHandler {
+public final class ColoredPrintLogHandler: LogHandler {
 
     private let template: String
     private let timeFormat: String
