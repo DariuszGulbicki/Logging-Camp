@@ -54,10 +54,8 @@ public class Logger {
 
     public func log(_ level: LogLevel, _ message: String, _ cause: Error? = nil) {
         if (loggingLevel.rawValue <= level.rawValue) {
-            let handlers = LoggingCamp.getEnabledHandlers(enabledHandlers)
-            for handler in handlers {
-                handler.log(level, message, name, cause)
-            }
+            let entry = LogEntry(level, message, enabledHandlers, cause, "\(self.name)")
+            LogDispatcher.shared.dispatchLogEntry(entry)
         }
     }
 
