@@ -8,13 +8,15 @@ public struct LogEntry: Sendable {
     public let message: String
     public let cause: Error?
     public let timestamp: Date = Date()
-    public let caller: String
+    public let callerId: String
+    public let callerPool: String?
 
-    public init(_ level: LogLevel, _ message: String, _ handlers: [String]? = nil, _ cause: Error? = nil, _ caller: String = #function) {
+    public init(_ level: LogLevel, _ message: String, handlers: [String]? = nil, cause: Error? = nil, callerId: String = #function, callerPool: String? = nil) {
         self.level = level
         self.message = message
         self.cause = cause
-        self.caller = caller
+        self.callerId = callerId
+        self.callerPool = callerPool
         self.handlers = handlers
     }
 

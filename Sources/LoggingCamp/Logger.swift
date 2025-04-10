@@ -8,40 +8,42 @@ public class Logger {
         return LoggingCamp.getDefaultLogger();
     }
 
-    private var name: String
+    private var id: String
+    private var correspondingPool: String?
 
     private var enabledHandlers: [String]?
 
     private var loggingLevel: LogLevel = LoggingCamp.getGlobalLoggingLevel();
 
-    public init(_ lcls: String? = nil, _ enabledHandlers: [String]? = nil) {
-        self.name = lcls ?? "UNKNOWN";
+    public init(_ id: String? = nil, _ enabledHandlers: [String]? = nil, correspondingPool: String? = nil) {
+        self.id = id ?? "UNKNOWN";
         self.enabledHandlers = enabledHandlers;
+        self.correspondingPool = correspondingPool;
     }
 
-    public func getName() -> String {
-        return name;
+    public func getId() -> String {
+        return id;
     }
 
-    public func enableHandler(_ name: String) {
+    public func enableHandler(_ id: String) {
         if (enabledHandlers == nil) {
             enabledHandlers = [];
         }
-        enabledHandlers!.append(name);
+        enabledHandlers!.append(id);
     }
 
-    public func disableHandler(_ name: String) {
+    public func disableHandler(_ id: String) {
         if (enabledHandlers == nil) {
             enabledHandlers = [];
         }
-        enabledHandlers!.removeAll(where: { $0 == name });
+        enabledHandlers!.removeAll(where: { $0 == id });
     }
 
-    public func isHandlerEnabled(_ name: String) -> Bool {
+    public func isHandlerEnabled(_ id: String) -> Bool {
         if (enabledHandlers == nil) {
             return true;
         }
-        return enabledHandlers!.contains(name);
+        return enabledHandlers!.contains(id);
     }
 
     public func setEnabledHandlers(_ enabled: [String]?) {
@@ -54,7 +56,7 @@ public class Logger {
 
     public func log(_ level: LogLevel, _ message: String, _ cause: Error? = nil) {
         if (loggingLevel.rawValue <= level.rawValue) {
-            let entry = LogEntry(level, message, enabledHandlers, cause, "\(self.name)")
+            let entry = LogEntry(level, message, handlers: enabledHandlers, cause: cause, callerId: "\(self.id)", callerPool: correspondingPool)
             LogDispatcher.shared.dispatchLogEntry(entry)
         }
     }

@@ -26,12 +26,12 @@ public final class LogDispatcher: @unchecked Sendable {
     }
 
     public func dispatchLogEntry(_ entry: LogEntry) {   
-        let handlers = LoggingCamp.getNamedEnabledHandlers(entry.handlers)
+        let handlers = LoggingCamp.getIdEnabledHandlers(entry.handlers)
         for (handlerId, handler) in handlers {
             dispatchGroup.enter()
             let queue = getQueueForHandler(handlerId)
             queue.async(flags: .barrier) {
-                handler.log(entry.level, entry.message, entry.caller, entry.cause)
+                handler.log(entry)
                 self.dispatchGroup.leave()
             }
         }

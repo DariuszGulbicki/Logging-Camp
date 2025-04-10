@@ -11,12 +11,12 @@ public final class ColoredPrintLogHandler: LogHandler {
         self.timeFormat = timeFormat
     }
 
-    public func log(_ level: LogLevel, _ message: String, _ caller: String, _ cause: Error?) {
+    public func log(_ entry: LogEntry) {
         let time = prepareTime(Date())
-        let level = prepareLevel(level)
-        let message = prepareMessage(message)
-        let cause = prepareCause(cause)
-        let caller = prepareCaller(caller)
+        let level = prepareLevel(entry.level)
+        let message = prepareMessage(entry.message)
+        let cause = prepareCause(entry.cause)
+        let caller = prepareCaller(entry.callerId, entry.callerPool)
         let output = template
             .replacing("@time", with: time)
             .replacing("@level", with: level)
@@ -58,8 +58,13 @@ public final class ColoredPrintLogHandler: LogHandler {
         return ""
     }
 
-    private func prepareCaller(_ caller: String) -> String {
-        return "\(caller):".magenta()
+    private func prepareCaller(_ caller: String, _ callerPool: String?) -> String {
+        var callerString = ""
+        if let callerPool = callerPool {
+            callerString += "(\(callerPool)) "
+        }
+        callerString += "\(caller):"
+        return callerString.magenta()
     }
 
 }
