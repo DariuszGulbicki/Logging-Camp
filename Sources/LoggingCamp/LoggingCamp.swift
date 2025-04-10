@@ -2,13 +2,13 @@ public actor LoggingCamp {
 
     private static let defaultLoggerPool = LoggerPool("default");
 
-    private static var _defaultLoggerhandlerId: String = "Main";
-    public static var defaultLoggerhandlerId: String {
+    private static var _defaultLogHandlerId: String = "Main";
+    public static var defaultLogHandlerId: String {
         get {
-            return _defaultLoggerhandlerId;
+            return _defaultLogHandlerId;
         }
         set {
-            _defaultLoggerhandlerId = newValue;
+            _defaultLogHandlerId = newValue;
         }
     }
 
@@ -22,7 +22,7 @@ public actor LoggingCamp {
     }
 
     public static func getDefaultLogger() -> Logger {
-        return defaultLoggerPool.getLogger(LoggingCamp.defaultLoggerhandlerId)
+        return defaultLoggerPool.getLogger(LoggingCamp.defaultLogHandlerId)
     }
 
     public static func loadHandler(_ handlerId: String, _ handler: LogHandler) {
