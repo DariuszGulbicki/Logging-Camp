@@ -17,7 +17,7 @@ public actor LoggingCamp {
 
     private static var loggingLevel: LogLevel = .info;
 
-    public static func getDefaulLoggerPool() -> LoggerPool {
+    public static func getDefaultLoggerPool() -> LoggerPool {
         return defaultLoggerPool;
     }
 
