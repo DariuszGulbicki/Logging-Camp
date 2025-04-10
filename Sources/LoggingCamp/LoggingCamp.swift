@@ -55,6 +55,16 @@ public class LoggingCamp {
         return enabledHandlers;
     }
 
+    public static func getNamedEnabledHandlers(_ enabled: [String]? = nil) -> [(String, LogHandler)] {
+        var enabledHandlers: [(String, LogHandler)] = [];
+        for (name, handler) in handlers {
+            if isHandlerEnabled(name) && (enabled == nil || enabled!.contains(name)) {
+                enabledHandlers.append((name, handler));
+            }
+        }
+        return enabledHandlers;
+    }
+
     public static func setGlobalLoggingLevel(_ level: LogLevel) {
         loggingLevel = level;
         defaultLoggerPool.loggingLevel = level;
