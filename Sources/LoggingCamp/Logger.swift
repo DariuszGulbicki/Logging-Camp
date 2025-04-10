@@ -1,7 +1,7 @@
 public class Logger {
 
     public static subscript(_ name: String) -> Logger {
-        return LoggingCamp.getDefaulLoggerPool().getLogger(name);
+        return LoggingCamp.getDefaultLoggerPool().getLogger(name);
     }
 
     public static var `default`: Logger {
