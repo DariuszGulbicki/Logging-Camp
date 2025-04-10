@@ -1,3 +1,5 @@
+![Banner](https://raw.githubusercontent.com/DariuszGulbicki/Logging-Camp/main/assets/banner-github.png)
+
 # Logging Camp
 
 Logging Camp is a simple and customizable logging library written in Swift, designed to make it easy to add logging to your iOS, macOS, or tvOS application.
