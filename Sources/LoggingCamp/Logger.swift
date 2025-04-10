@@ -66,25 +66,25 @@ public class Logger {
     }
 
     public func debug(_ message: Any, _ cause: Error? = nil) {
-        if (loggingLevel.rawValue <= LogLevel.DEBUG.rawValue) {
-            log(LogLevel.DEBUG, message, cause)
+        if (loggingLevel.rawValue <= LogLevel.debug.rawValue) {
+            log(LogLevel.debug, message, cause)
         }
     }
 
     public func info(_ message: Any, _ cause: Error? = nil) {
-        log(LogLevel.INFO, message, cause)
+        log(LogLevel.info, message, cause)
     }
 
     public func warn(_ message: Any, _ cause: Error? = nil) {
-        log(LogLevel.WARN, message, cause)
+        log(LogLevel.warn, message, cause)
     }
 
     public func error(_ message: Any, _ cause: Error? = nil) {
-        log(LogLevel.ERROR, message, cause)
+        log(LogLevel.error, message, cause)
     }
 
     public func fatal(_ message: Any, _ cause: Error? = nil) {
-        log(LogLevel.FATAL, message, cause)
+        log(LogLevel.fatal, message, cause)
     }
 
     public func setLoggingLevel(_ level: LogLevel) {

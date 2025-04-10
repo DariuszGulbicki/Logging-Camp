@@ -15,7 +15,7 @@ public actor LoggingCamp {
     private static var handlers: [String:LogHandler] = ["default":ColoredPrintLogHandler()];
     private static var disabledHandlers: [String] = [];
 
-    private static var loggingLevel: LogLevel = .INFO;
+    private static var loggingLevel: LogLevel = .info;
 
     public static func getDefaulLoggerPool() -> LoggerPool {
         return defaultLoggerPool;

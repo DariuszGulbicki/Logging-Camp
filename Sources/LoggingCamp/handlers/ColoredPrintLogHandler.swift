@@ -28,15 +28,15 @@ public final class ColoredPrintLogHandler: LogHandler {
 
     private func prepareLevel(_ level: LogLevel) -> String {
         switch level {
-            case .DEBUG:
+            case .debug:
                 return "[DEBUG]".white().greenBackground()
-            case .INFO:
+            case .info:
                 return "[INFO]".white().blueBackground()
-            case .WARN:
+            case .warn:
                 return "[WARN]".white().yellowBackground()
-            case .ERROR:
+            case .error:
                 return "[ERROR]".bold().white().redBackground()
-            case .FATAL:
+            case .fatal:
                 return "!!! FATAL !!!".bold().underline().red().blackBackground()
         }
     }

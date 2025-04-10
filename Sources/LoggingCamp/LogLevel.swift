@@ -1,22 +1,22 @@
 public enum LogLevel: UInt8, Sendable {
-    case DEBUG = 0
-    case INFO = 1
-    case WARN = 2
-    case ERROR = 3
-    case FATAL = 4
+    case debug = 0
+    case info = 1
+    case warn = 2
+    case error = 3
+    case fatal = 4
 
     func toString() -> String {
         switch self {
-        case .DEBUG:
-            return "DEBUG"
-        case .INFO:
-            return "INFO"
-        case .WARN:
-            return "WARN"
-        case .ERROR:
-            return "ERROR"
-        case .FATAL:
-            return "FATAL"
+        case .debug:
+            return "debug"
+        case .info:
+            return "info"
+        case .warn:
+            return "warn"
+        case .error:
+            return "error"
+        case .fatal:
+            return "fatal"
         }
     }
 }

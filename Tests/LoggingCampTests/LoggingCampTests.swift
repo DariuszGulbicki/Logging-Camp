@@ -4,7 +4,7 @@ import XCTest
 final class LoggingCampTests: XCTestCase {
 
     func testLogger() throws {
-        LoggingCamp.setGlobalLoggingLevel(.DEBUG)
+        LoggingCamp.setGlobalLoggingLevel(.debug)
         let logger = Logger("test")
         logger.setEnabledHandlers(["default"])
 
@@ -29,9 +29,9 @@ final class LoggingCampTests: XCTestCase {
 
         loggingPool["newLogger"].info("New logger created")
 
-        loggingPool.loggingLevel = .DEBUG
+        loggingPool.loggingLevel = .debug
 
-        XCTAssertEqual(loggingPool.loggingLevel, .DEBUG)
+        XCTAssertEqual(loggingPool.loggingLevel, .debug)
         XCTAssertEqual(loggingPool.getLoggers().count, 2)
 
         loggingPool.debug("This is a debug message")
