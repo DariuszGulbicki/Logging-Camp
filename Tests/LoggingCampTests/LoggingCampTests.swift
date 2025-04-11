@@ -4,7 +4,7 @@ import XCTest
 final class LoggingCampTests: XCTestCase {
 
     func testLogger() throws {
-        LoggingCamp.setGlobalLoggingLevel(.debug)
+        LoggingConfig.setDefaultLoggingLevel(.debug)
         let logger = Logger("test")
         logger.setEnabledHandlers(["default"])
 

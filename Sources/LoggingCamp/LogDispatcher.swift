@@ -26,7 +26,7 @@ public final class LogDispatcher: @unchecked Sendable {
     }
 
     public func dispatchLogEntry(_ entry: LogEntry) {   
-        let handlers = LoggingCamp.getIdEnabledHandlers(entry.handlers)
+        let handlers = LogHandlerManager.getIdEnabledHandlers(entry.handlers)
         for (handlerId, handler) in handlers {
             dispatchGroup.enter()
             let queue = getQueueForHandler(handlerId)
