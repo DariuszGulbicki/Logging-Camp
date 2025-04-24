@@ -1,6 +1,6 @@
 import Foundation
 
-public struct LogEntry: Sendable {
+public struct LogEntry: Sendable, CustomStringConvertible {
 
     public let handlers: [String]?
 
@@ -18,6 +18,12 @@ public struct LogEntry: Sendable {
         self.callerId = callerId
         self.callerPool = callerPool
         self.handlers = handlers
+    }
+
+    public var description: String {
+        get {
+            return "\(handlers?.description ?? "ALL") \(level) \(timestamp) [\(callerPool ?? "none")/\(callerId)]: \(message) caused by \(cause?.localizedDescription ?? "unknown")";
+        }
     }
 
 }

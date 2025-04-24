@@ -17,12 +17,15 @@ public final class LogDispatcher: @unchecked Sendable {
     
 
     private func getQueueForHandler(_ handler: String) -> DispatchQueue {
-        if let queue = handlerQueues[handler] {
+        // Use instanceQueue for thread-safe access to handlerQueues
+        return LogDispatcher.instanceQueue.sync {
+            if let queue = handlerQueues[handler] {
+                return queue
+            }
+            let queue = DispatchQueue(label: handler, qos: .background)
+            handlerQueues[handler] = queue
             return queue
         }
-        let queue = DispatchQueue(label: handler, qos: .background)
-        handlerQueues[handler] = queue
-        return queue
     }
 
     public func dispatchLogEntry(_ entry: LogEntry) {   
