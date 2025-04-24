@@ -1,11 +1,11 @@
 public class Logger {
 
     public static subscript(_ id: String) -> Logger {
-        return LoggingCamp.getDefaultLoggerPool().getLogger(id);
+        return LoggerPool[LoggingConfig.getDefaultLoggerPoolId()].getLogger(id)
     }
 
     public static var `default`: Logger {
-        return LoggingCamp.getDefaultLogger();
+        return LoggerPool[LoggingConfig.getDefaultLoggerPoolId()].getLogger(LoggingConfig.getDefaultLoggerId())
     }
 
     private var id: String
@@ -13,45 +13,45 @@ public class Logger {
 
     private var enabledHandlers: [String]?
 
-    private var loggingLevel: LogLevel = LoggingCamp.getGlobalLoggingLevel();
+    private var loggingLevel: LogLevel = LoggingConfig.getDefaultLoggingLevel()
 
     public init(_ id: String? = nil, _ enabledHandlers: [String]? = nil, correspondingPool: String? = nil) {
-        self.id = id ?? "UNKNOWN";
-        self.enabledHandlers = enabledHandlers;
-        self.correspondingPool = correspondingPool;
+        self.id = id ?? "UNKNOWN"
+        self.enabledHandlers = enabledHandlers
+        self.correspondingPool = correspondingPool
     }
 
     public func getId() -> String {
-        return id;
+        return id
     }
 
     public func enableHandler(_ id: String) {
         if (enabledHandlers == nil) {
-            enabledHandlers = [];
+            enabledHandlers = []
         }
-        enabledHandlers!.append(id);
+        enabledHandlers!.append(id)
     }
 
     public func disableHandler(_ id: String) {
         if (enabledHandlers == nil) {
-            enabledHandlers = [];
+            enabledHandlers = []
         }
-        enabledHandlers!.removeAll(where: { $0 == id });
+        enabledHandlers!.removeAll(where: { $0 == id })
     }
 
     public func isHandlerEnabled(_ id: String) -> Bool {
         if (enabledHandlers == nil) {
-            return true;
+            return true
         }
-        return enabledHandlers!.contains(id);
+        return enabledHandlers!.contains(id)
     }
 
     public func setEnabledHandlers(_ enabled: [String]?) {
-        enabledHandlers = enabled;
+        enabledHandlers = enabled
     }
 
     public func getEnabledHandlers() -> [String]? {
-        return enabledHandlers;
+        return enabledHandlers
     }
 
     public func log(_ level: LogLevel, _ message: String, _ cause: Error? = nil) {

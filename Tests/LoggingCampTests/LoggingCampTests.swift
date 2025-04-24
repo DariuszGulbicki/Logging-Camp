@@ -1,38 +1,49 @@
-import XCTest
+import Testing
+import Foundation
 @testable import LoggingCamp
 
-final class LoggingCampTests: XCTestCase {
+struct LoggingCampTests {
 
-    func testLogger() throws {
-        LoggingCamp.setGlobalLoggingLevel(.debug)
+    @Test
+    func loggerInitializationAndHandlers() {
+        LoggingConfig.setDefaultLoggingLevel(.debug)
         let logger = Logger("test")
         logger.setEnabledHandlers(["default"])
 
-        XCTAssertEqual(logger.getId(), "test")
-        XCTAssertEqual(logger.getEnabledHandlers(), ["default"])
+        #expect(logger.getId() == "test", "Logger ID should match the initialized value.")
+        #expect(logger.getEnabledHandlers() == ["default"], "Enabled handlers should match the set value.")
+    }
+
+    @Test
+    func loggerLoggingMethods() {
+        let logger = Logger("test")
+        logger.setEnabledHandlers(["default"])
 
         logger.debug("This is a debug message")
         logger.info("This is an info message")
         logger.warn("This is a warning message")
         logger.error("This is an error message")
         logger.fatal("This is a fatal message")
+
+        // Add assertions or mock handler checks if applicable
     }
 
-    func testLoggingPool() throws {
+    @Test
+    func loggingPool() {
         let logger = Logger("test")
         let loggingPool = LoggerPool("new")
 
         loggingPool.addLogger(logger)
 
-        XCTAssertEqual(loggingPool.getLoggers().count, 1)
-        XCTAssertEqual(loggingPool["test"].getId(), "test")
+        #expect(loggingPool.getLoggers().count == 1)
+        #expect(loggingPool["test"].getId() == "test")
 
         loggingPool["newLogger"].info("New logger created")
 
         loggingPool.loggingLevel = .debug
 
-        XCTAssertEqual(loggingPool.loggingLevel, .debug)
-        XCTAssertEqual(loggingPool.getLoggers().count, 2)
+        #expect(loggingPool.loggingLevel == .debug)
+        #expect(loggingPool.getLoggers().count == 2)
 
         loggingPool.debug("This is a debug message")
         loggingPool.info("This is an info message")
@@ -42,10 +53,11 @@ final class LoggingCampTests: XCTestCase {
 
         loggingPool.removeAll()
 
-        XCTAssertEqual(loggingPool.getLoggers().count, 0)
+        #expect(loggingPool.getLoggers().count == 0)
     }
 
-    func testOperators() throws {
+    @Test
+    func operators() {
         let logger = Logger("test")
         logger.setEnabledHandlers(["default"])
 
@@ -72,5 +84,4 @@ final class LoggingCampTests: XCTestCase {
         !!!<<<(error)
         !!!<<<(message, error)
     }
-
 }
